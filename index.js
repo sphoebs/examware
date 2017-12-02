@@ -3,12 +3,17 @@
  */
 
 
-var express = require('express'),
+const express = require('express'),
     bodyParser = require('body-parser');
 
-var app = express();
+const app = express();
 app.use(bodyParser.json());
+const pg = require('pg')
+const connectionString = process.env.DATABASE_URL ||
+    'postgres://kumyvojuobzzge:1c6dee0519b0eae78e740a05d19d86d86ea8e3c69b48042b51115e126972ddcf@ec2-23-23-245-89.compute-1.amazonaws.com:5432/da1ltogcpvper7';
 
+const pgClient = new pg.Client(connectionString);
+pgClient.connect();
 
 app.set('port', (process.env.PORT || 5000));
 
