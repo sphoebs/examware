@@ -8,12 +8,20 @@ const express = require('express'),
 
 const app = express();
 app.use(bodyParser.json());
-const pg = require('pg')
-const connectionString = process.env.DATABASE_URL ||
-    'postgres://kumyvojuobzzge:1c6dee0519b0eae78e740a05d19d86d86ea8e3c69b48042b51115e126972ddcf@ec2-23-23-245-89.compute-1.amazonaws.com:5432/da1ltogcpvper7';
 
-const pgClient = new pg.Client(connectionString);
-pgClient.connect();
+const db = require('./db')
+
+
+db.addAssignment(2,2,{"test":"testvalue"})
+
+db.getAllAssignments(2)
+
+//console.log(res.rows[0].message) // Hello world!
+
+
+//var query = pgClient.query('CREATE TABLE IF NOT EXISTS ASSIGNMENTS (EXAM_ID integer, STUDENT_ID integer, JSON_DATA JSON)')
+
+//query.on('end', () => { client.end(); console.log('end query here') });
 
 app.set('port', (process.env.PORT || 5000));
 
