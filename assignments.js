@@ -7,7 +7,7 @@ var express = require('express')
 var assignments = express.Router()
 
 assignments.get('/', function (req, res) {
-    res.josn({'xx': 'cc'})
+    res.json({'xx': 'cc'})
 })
 
 module.exports = assignments
