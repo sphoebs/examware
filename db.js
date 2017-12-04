@@ -18,18 +18,20 @@ pgClient.connect()
 
 //const res = await pgClient.query('CREATE TABLE IF NOT EXISTS ASSIGNMENTS (EXAM_ID integer, STUDENT_ID integer, JSON_DATA JSON)')
 
-pgClient.query('CREATE TABLE IF NOT EXISTS ASSIGNMENTS (EXAM_ID integer, STUDENT_ID integer, JSON_DATA JSON)')
+//pgClient.query('ALTER TABLE ASSIGNMENTS ADD TIMESTAMP timestamp')
+
+
+pgClient.query('CREATE TABLE IF NOT EXISTS ASSIGNMENTS (EXAM_ID integer, STUDENT_ID integer, TIMESTAMP timestamp, JSON_DATA JSON)')
     .then(r=> {console.log(r)})
 
 
 
 exports.addAssignment= function addAssignment (examId, studentID, data) {
-    const text = 'insert into assignments (EXAM_ID, STUDENT_ID, JSON_DATA) values ($1, $2, $3) returning *'
+    const text = 'insert into assignments (EXAM_ID, STUDENT_ID, TIMESTAMP, JSON_DATA) values ($1, $2, CURRENT_TIMESTAMP, $3) returning *'
     const values = [examId, studentID, data]
     pgClient.query(text, values)
         .then(res => {
             for (const i of res.rows) console.log(i)
-            // { name: 'brianc', email: 'brian.m.carlson@gmail.com' }
         })
         .catch(e => console.error(e.stack))
 }

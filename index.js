@@ -12,18 +12,22 @@ app.use(bodyParser.json());
 const db = require('./db')
 
 
-db.addAssignment(2,2,{"test":"testvalue"})
-
-db.getAllAssignments(2)
-
-//console.log(res.rows[0].message) // Hello world!
+const assignments = require('./assignments')
 
 
-//var query = pgClient.query('CREATE TABLE IF NOT EXISTS ASSIGNMENTS (EXAM_ID integer, STUDENT_ID integer, JSON_DATA JSON)')
+//db.addAssignment(2,2,{"test":"testvalue"})
 
-//query.on('end', () => { client.end(); console.log('end query here') });
+//db.getAllAssignments(2)
+
+app.use(function (req, res, next) {
+    console.log('\n Request IP Address: ', req.ip, 'Time:', Date.now())
+    next()
+})
+
+app.use('/assignments', assignments)
 
 app.set('port', (process.env.PORT || 5000));
+
 
 
 
