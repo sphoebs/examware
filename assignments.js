@@ -21,12 +21,10 @@ assignments.get('/', function (req, res) {
 })
 
 assignments.post('/', function (req, res) {
-
     const newAssignment = req.body
     newAssignment.assignmentID = uuid()
     deliveredAssignments.push(newAssignment)
-    console.log('post',newAssignment)
-
+    //console.log('post',newAssignment)
     res.json(newAssignment)
 })
 
@@ -35,18 +33,29 @@ assignments.post('/', function (req, res) {
 //     res.json(req.body)
 // })
 
-assignments.delete('/', function (req, res) {
-    //TODO: case where resource ID is in URL
-    console.log('delete request:',req.body.assignmentID)
-    console.log('deliveredAssignments:',deliveredAssignments[0].assignmentID)
+assignments.get('/:assignmentID', function (req, res) {
+    const assignmentID = req.params.assignmentID
+    const i = deliveredAssignments.findIndex(item => {return item.assignmentID === assignmentID})
+    res.json(deliveredAssignments[i])
+})
 
-    const i = deliveredAssignments.findIndex(item => {return item.assignmentID === req.body.assignmentID})
-    console.log('Deleting:', i)
+assignments.put('/:assignmentID', function (req, res) {
+    const assignmentID = req.params.assignmentID
+    const i = deliveredAssignments.findIndex(item => {return item.assignmentID === assignmentID})
+    deliveredAssignments[i] = req.body
+    res.json(deliveredAssignments[i])
+})
 
+assignments.delete('/:assignmentID', function (req, res) {
+    // console.log('delete request:',req.body.assignmentID)
+    // console.log('deliveredAssignments:',deliveredAssignments[0].assignmentID)
+
+    const assignmentID = req.params.assignmentID
+    const i = deliveredAssignments.findIndex(item => {return item.assignmentID === assignmentID})
     const deleted = deliveredAssignments[i]
 
     deliveredAssignments.splice(i,1)
-    console.log('Deleted item:', deleted)
+
     res.json(deleted)
 })
 

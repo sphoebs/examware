@@ -3,14 +3,14 @@
  */
 
 const root = process.env.SERVER_URL || 'http://127.0.0.1:5000'
-
 const fetch = require("node-fetch")
-
 const assignmentsRoot = root+'/assignments'
-
 const data = {'test': 'tested'}
 
-var assignmentID
+//var assignmentID
+
+// Nota : questo file contiene solo basic tests, non contiene tutti i test cases necessari ad esempio per testare che
+// tutti i required values ci siano.
 
 const postAssignments = function (data) {
     return fetch(assignmentsRoot, {
@@ -23,14 +23,13 @@ const postAssignments = function (data) {
     })
 }
 
-const deleteAssignments = function (data) {
-    return fetch(assignmentsRoot, {
+const deleteAssignments = function (assignmentID) {
+    return fetch(assignmentsRoot+'/'+assignmentID, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
-        },
-        body: JSON.stringify(data)
+        }//,
     })
 }
 
@@ -44,17 +43,30 @@ const getAssignments = function () {
     })
 }
 
+const getOneAssignment = function (assignmentID) {
+    return fetch(assignmentsRoot+'/'+assignmentID, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json'
+        },
+    })
+}
+
 
 
 test('get assignments is alive', () => {
 
     return fetch(assignmentsRoot,   { headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                            }
-                            })
+                    'Accept': 'application/json'}
+    })
         .then(response => {expect(response.status).toEqual(200) } )
+        .catch(e => {console.log(e)})
 });
+
+
+
+
 
 test('basic post and get', () => {
 
@@ -62,17 +74,11 @@ test('basic post and get', () => {
         .then(postResponse => { return postResponse.json() })
         .then(postResponseJson => {
             data.assignmentID = postResponseJson.assignmentID
-            return getAssignments()
+            return getOneAssignment(data.assignmentID)
         })
         .then(getResponse => {return getResponse.json()})
-        .then(jsonResponse => {
-
-            //console.log('jsonResponse:',jsonResponse)
-            const filtered = jsonResponse.filter(item => item.assignmentID ==data.assignmentID)
-            //console.log('filtered:',filtered)
-
-            expect(filtered[0].test).toBe('tested')
-        })
+        .then(jsonResponse => {expect(jsonResponse.test).toBe('tested')})
+        .catch(e => {console.log(e)})
 });
 
 
@@ -89,16 +95,12 @@ test('basic post and get', () => {
 // });
 
 test('delete by assignmentID', () => {
-
-    return deleteAssignments(data)
+    return deleteAssignments(data.assignmentID)
         .then(response => { return response.json() })
         .then(jresponse => {
-            // console.log('delete jresponse',jresponse)
-            // console.log('delete data',data.assignmentID)
-
             expect(jresponse.assignmentID).toEqual(data.assignmentID)
         } )
-
+        .catch(e => {console.log(e)})
 });
 
 
