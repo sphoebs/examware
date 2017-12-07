@@ -1,6 +1,10 @@
 
 secrets.js
 
+.idea
+.idea/workspace.xml
+package-lock.json
+
 # Logs
 logs
 *.log
