@@ -4,15 +4,8 @@
 
 
 const pg = require('pg')
-
-const pgClient = new pg.Client({
-    user: "kumyvojuobzzge",
-    password: "1c6dee0519b0eae78e740a05d19d86d86ea8e3c69b48042b51115e126972ddcf",
-    database: "da1ltogcpvper7",
-    port: 5432,
-    host: "ec2-23-23-245-89.compute-1.amazonaws.com",
-    ssl: true
-});
+const pgClientData = require('./secrets')
+const pgClient = new pg.Client(pgClientData);
 
 pgClient.connect()
 
