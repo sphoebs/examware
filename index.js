@@ -15,9 +15,6 @@ const db = require('./db')
 const assignments = require('./assignments')
 
 
-//db.addAssignment(2,2,{"test":"testvalue"})
-
-//db.getAllAssignments(2)
 
 app.use(function (req, res, next) {
     console.log('\n Request IP Address: ', req.ip, 'Time:', Date.now())
@@ -33,11 +30,6 @@ app.set('port', (process.env.PORT || 5000));
 
 var students = []
 
-//app.use(express.static(__dirname + '/public'));
-
-// views is directory for all template files
-//app.set('views', __dirname + '/views');
-//app.set('view engine', 'ejs');
 
 app.get('/', function(request, response) {
     // response.render('pages/index');

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node index.js"
   },
   "repository": {
@@ -20,7 +20,9 @@
   "dependencies": {
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
+    "node-fetch": "^1.7.3",
     "node-fetch-json": "0.0.3",
-    "pg": "^7.4.0"
+    "pg": "^7.4.0",
+    "uuid-v4": "^0.1.0"
   }
 }
