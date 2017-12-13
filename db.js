@@ -16,6 +16,7 @@ pgClient.connect()
 
 pgClient.query('CREATE TABLE IF NOT EXISTS ASSIGNMENTS (EXAM_ID integer, STUDENT_ID integer, TIMESTAMP timestamp, JSON_DATA JSON)')
     .then(r=> {console.log(r)})
+    .catch(e=> console.log(e))
 
 
 
