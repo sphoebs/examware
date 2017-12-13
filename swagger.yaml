@@ -87,7 +87,7 @@ paths:
   /assignments/{id}:
     get:
       description: Returns an assignment
-      operationId: find pet by assignment id
+      operationId: findbyassignment id
       parameters:
         - name: id
           in: path
