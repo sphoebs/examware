@@ -1,0 +1,160 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: "Examware"
+  description: Managing and monitoring assignments and exams
+  termsOfService: http://swagger.io/terms/
+  contact:
+    name: Swagger API Team
+    email: foo@example.com
+    url: http://exams.jointresearch.net
+  license:
+    name: MIT
+    url: http://github.com/gruntjs/grunt/blob/master/LICENSE-MIT
+host: examse2.herokuapp.com
+basePath: /
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /assignments:
+    get:
+      description: Retrieves assigments 
+      operationId: getAssignments
+      parameters:
+        - name: examid
+          in: query
+          description: id of exam
+          required: false
+          type: string
+        - name: studentid
+          in: query
+          description: student ID
+          required: false
+          type: string
+      responses:
+        200:
+          description: list of assignments (delivered by a specified student for a specified exam)
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Assignment'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      description: Uploads a new assignment.
+      operationId: addAssignment
+      parameters:
+        - name: assignment
+          in: body
+          description: new assignment
+          required: true
+          schema:
+            $ref: '#/definitions/NewAssignment'
+      responses:
+        200:
+          description: pet response
+          schema:
+            $ref: '#/definitions/Assignment'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      description: Updates an existing assignment, or create a new one with ID.
+      operationId: updateAssignment
+      parameters:
+        - name: assignment
+          in: body
+          description: assignment
+          required: true
+          schema:
+            $ref: '#/definitions/Assignment'
+      responses:
+        200:
+          description: assignment update response
+          schema:
+            $ref: '#/definitions/Assignment'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /assignments/{id}:
+    get:
+      description: Returns an assignment
+      operationId: find pet by assignment id
+      parameters:
+        - name: id
+          in: path
+          description: ID of assignment to fetch
+          required: true
+          type: string
+      responses:
+        200:
+          description: pet response
+          schema:
+            $ref: '#/definitions/Assignment'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      description: deletes a single assignment based on the ID supplied
+      operationId: deleteAssignment
+      parameters:
+        - name: id
+          in: path
+          description: ID of assignment to delete
+          required: true
+          type: string
+      responses:
+        204:
+          description: assigment deleted
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Assignment:
+    allOf:
+      - $ref: '#/definitions/NewAssignment'
+      - required:
+        - assignmentID
+        properties:
+          assignmentID:
+            type: string
+          ipAddress:
+            type: string
+            format: ipv6
+          dateUpdated: 
+            type: string
+            format: date-time
+  NewAssignment:
+    required:
+      - workerID
+      - taskID
+      - assignmentResult
+    properties:
+      workerID:
+        type: string
+      taskID:
+        type: string
+      assignmentResult:
+        type: object
+      status:
+        type: string
+  Error:
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
