@@ -94,6 +94,7 @@ paths:
           description: ID of assignment to fetch
           required: true
           type: string
+          x-example: 'fdfs'
       responses:
         200:
           description: pet response
