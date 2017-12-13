@@ -94,7 +94,7 @@ paths:
           description: ID of assignment to fetch
           required: true
           type: string
-          x-example: 'fdfs'
+          x-example: 'some-example'
       responses:
         200:
           description: pet response
@@ -113,6 +113,7 @@ paths:
           description: ID of assignment to delete
           required: true
           type: string
+          x-example: 'some-example'
       responses:
         204:
           description: assigment deleted
