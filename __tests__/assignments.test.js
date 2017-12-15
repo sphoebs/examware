@@ -81,22 +81,22 @@ test('basic post and get', () => {
         })
         .then(getResponse => {return getResponse.json()})
         .then(jsonResponse => {expect(jsonResponse.assignmentResult).toEqual(exampleAssignment.assignmentResult)})
-        .catch(e => {console.log(e)})
+        //.catch(e => {console.log(e)})
 });
 
 
 
 test('delete by assignmentID - basic response', () => {
     return deleteAssignments(exampleAssignment.assignmentID)
-        .then(response => {  expect(response.status).toBe(204) })
-        .catch(e => {console.log(e)})
+        .then(response => {   expect(response.status).toBe(204) })
+        //.catch(e => {console.log(e)})
 });
 
 
 test('delete by assignmentID - item actually deleted', () => {
     return getOneAssignment(exampleAssignment.assignmentID)
         .then(res => {expect(res.status).toBe(404)})
-        .catch(e => {console.log(e)})
+        //.catch(e => {console.log(e)})
 });
 
 

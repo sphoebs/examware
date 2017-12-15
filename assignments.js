@@ -48,6 +48,7 @@ assignments.put('/:assignmentID', function (req, res) {
 
 assignments.delete('/:assignmentID', function (req, res) {
     const assignmentID = req.params.assignmentID
+    if (!assignmentID) res.sendStatus(404)
     const i = deliveredAssignments.findIndex(item => {return item.assignmentID === assignmentID})
     const deleted = deliveredAssignments[i]
     deliveredAssignments.splice(i,1)
