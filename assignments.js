@@ -15,7 +15,7 @@ const deliveredAssignments = []
 
 assignments.get('/', function (req, res) {
     //console.log('get, delivering:',deliveredAssignments)
-//TODO: check if there is a filter, and filter
+    //TODO: check if there is a filter, and filter
     res.json(deliveredAssignments)
 
 })
@@ -23,40 +23,35 @@ assignments.get('/', function (req, res) {
 assignments.post('/', function (req, res) {
     const newAssignment = req.body
     newAssignment.assignmentID = uuid()
+    newAssignment.dateUpdated = new Date()
     deliveredAssignments.push(newAssignment)
-    //console.log('post',newAssignment)
     res.json(newAssignment)
 })
-
-// assignments.put('/', function (req, res) {
-//     console.log('put',req.body)
-//     res.json(req.body)
-// })
 
 assignments.get('/:assignmentID', function (req, res) {
     const assignmentID = req.params.assignmentID
     const i = deliveredAssignments.findIndex(item => {return item.assignmentID === assignmentID})
-    res.json(deliveredAssignments[i])
+    if (i==-1) res.sendStatus(404)
+    else {
+        res.status=200
+        res.json(deliveredAssignments[i])
+    }
 })
 
 assignments.put('/:assignmentID', function (req, res) {
     const assignmentID = req.params.assignmentID
     const i = deliveredAssignments.findIndex(item => {return item.assignmentID === assignmentID})
     deliveredAssignments[i] = req.body
+    deliveredAssignments[i].dateUpdated = new Date()
     res.json(deliveredAssignments[i])
 })
 
 assignments.delete('/:assignmentID', function (req, res) {
-    // console.log('delete request:',req.body.assignmentID)
-    // console.log('deliveredAssignments:',deliveredAssignments[0].assignmentID)
-
     const assignmentID = req.params.assignmentID
     const i = deliveredAssignments.findIndex(item => {return item.assignmentID === assignmentID})
     const deleted = deliveredAssignments[i]
-
     deliveredAssignments.splice(i,1)
-
-    res.json(deleted)
+    res.sendStatus(204)
 })
 
 module.exports = assignments
