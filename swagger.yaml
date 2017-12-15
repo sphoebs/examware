@@ -25,19 +25,19 @@ paths:
       description: Retrieves assigments 
       operationId: getAssignments
       parameters:
-        - name: examid
+        - name: taskid
           in: query
-          description: id of exam
+          description: UUID of task
           required: false
           type: string
-        - name: studentid
+        - name: workerid
           in: query
-          description: student ID
+          description: UUID of worker
           required: false
           type: string
       responses:
         200:
-          description: list of assignments (delivered by a specified student for a specified exam)
+          description: list of assignments (delivered by a specified worker for a specified task)
           schema:
             type: array
             items:
@@ -57,27 +57,8 @@ paths:
           schema:
             $ref: '#/definitions/NewAssignment'
       responses:
-        200:
-          description: pet response
-          schema:
-            $ref: '#/definitions/Assignment'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-    put:
-      description: Updates an existing assignment, or create a new one with ID.
-      operationId: updateAssignment
-      parameters:
-        - name: assignment
-          in: body
-          description: assignment
-          required: true
-          schema:
-            $ref: '#/definitions/Assignment'
-      responses:
-        200:
-          description: assignment update response
+        201:
+          description: assignment created response
           schema:
             $ref: '#/definitions/Assignment'
         default:
@@ -97,7 +78,32 @@ paths:
           x-example: 'some-example'
       responses:
         200:
-          description: pet response
+          description: OK - assignment
+          schema:
+            $ref: '#/definitions/Assignment'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      description: Updates an existing assignment, or create a new one with ID.
+      operationId: updateAssignment
+      parameters:
+        - name: id
+          in: path
+          description: ID of assignment to edit or create
+          required: true
+          type: string
+          x-example: 'some-example'
+        - name: assignment
+          in: body
+          description: assignment
+          required: true
+          schema:
+            $ref: '#/definitions/Assignment'
+      responses:
+        202:
+          description: assignment update response
           schema:
             $ref: '#/definitions/Assignment'
         default:
@@ -113,7 +119,7 @@ paths:
           description: ID of assignment to delete
           required: true
           type: string
-          x-example: 'some-example'
+          x-example: 'erwtre34-36fws'
       responses:
         204:
           description: assigment deleted
