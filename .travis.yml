@@ -6,4 +6,4 @@ before_install:
   - npm i  jest
 
 env:
-  - SERVER_URL=https://examware.herokuapp.com
+  - SERVER_URL=https://examse2.herokuapp.com
