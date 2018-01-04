@@ -42,6 +42,7 @@ assignments.put('/:assignmentID', function (req, res) {
     const assignmentID = req.params.assignmentID
     const i = deliveredAssignments.findIndex(item => {return item.assignmentID === assignmentID})
     deliveredAssignments[i] = req.body
+    deliveredAssignments[i].assignmentID = assignmentID
     deliveredAssignments[i].dateUpdated = new Date()
     res.json(deliveredAssignments[i])
 })
